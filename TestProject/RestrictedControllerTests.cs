@@ -4,7 +4,7 @@ using System.Security.Claims;
 using UserService.Controllers;
 using UserService.AuthorizationModel;
 using Microsoft.AspNetCore.Http;
-using UserDataBase.BD;
+using UserDataBase.DB;
 using UserDataBase.Repository;
 using NUnit.Framework;
 

@@ -10,149 +10,151 @@ using UserService.Controllers;
 using NUnit.Framework;
 
 
-namespace TestProject;
-
-[TestFixture]
-public class LoginControllerTests
+namespace TestProject
 {
-    private LoginController _controller;
-    private Mock<IUserRepository> _userRepositoryMock;
 
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class LoginControllerTests
     {
-        _userRepositoryMock = new Mock<IUserRepository>();
-        _controller = new LoginController(new ConfigurationManager(), _userRepositoryMock.Object);
-    }
+        private LoginController _controller;
+        private Mock<IUserRepository> _userRepositoryMock;
 
-    [Test]
-    public void Login_Should_Return_OkResult_With_Token()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
-        var roleId = RoleId.User;
-        _userRepositoryMock.Setup(repo => repo.UserCheck(userLogin.Name, userLogin.Password)).Returns(roleId);
+        [SetUp]
+        public void Setup()
+        {
+            _userRepositoryMock = new Mock<IUserRepository>();
+            _controller = new LoginController(new ConfigurationManager(), _userRepositoryMock.Object);
+        }
 
-        // Act
-        var result = _controller.Login(userLogin) as OkObjectResult;
+        [Test]
+        public void Login_Should_Return_OkResult_With_Token()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
+            var roleId = RoleId.User;
+            _userRepositoryMock.Setup(repo => repo.UserCheck(userLogin.Name, userLogin.Password)).Returns(roleId);
 
-        // Assert
-        Assert.IsNull(result);
-    }
+            // Act
+            var result = _controller.Login(userLogin) as OkObjectResult;
 
-    [Test]
-    public void Login_Should_Return_InternalServerError_When_Exception_Occurs()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
-        _userRepositoryMock.Setup(repo => repo.UserCheck(userLogin.Name, userLogin.Password))
-            .Throws(new Exception("Some error message"));
+            // Assert
+            Assert.IsNull(result);
+        }
 
-        // Act
-        var result = _controller.Login(userLogin) as StatusCodeResult;
+        [Test]
+        public void Login_Should_Return_InternalServerError_When_Exception_Occurs()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
+            _userRepositoryMock.Setup(repo => repo.UserCheck(userLogin.Name, userLogin.Password))
+                .Throws(new Exception("Some error message"));
 
-        // Assert
-        Assert.IsNull(result);
-    }
+            // Act
+            var result = _controller.Login(userLogin) as StatusCodeResult;
 
-    [Test]
-    public void AddAdmin_Should_Return_OkResult()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
+            // Assert
+            Assert.IsNull(result);
+        }
 
-        // Act
-        var result = _controller.AddAdmin(userLogin) as OkResult;
+        [Test]
+        public void AddAdmin_Should_Return_OkResult()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
 
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-    }
+            // Act
+            var result = _controller.AddAdmin(userLogin) as OkResult;
 
-    [Test]
-    public void AddAdmin_Should_Return_InternalServerError_When_Exception_Occurs()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
-        _userRepositoryMock.Setup(repo => repo.UserAdd(userLogin.Name, userLogin.Password, RoleId.Admin))
-            .Throws(new Exception("Some error message"));
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+        }
 
-        // Act
-        var result = _controller.AddAdmin(userLogin) as StatusCodeResult;
+        [Test]
+        public void AddAdmin_Should_Return_InternalServerError_When_Exception_Occurs()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
+            _userRepositoryMock.Setup(repo => repo.UserAdd(userLogin.Name, userLogin.Password, RoleId.Admin))
+                .Throws(new Exception("Some error message"));
 
-        // Assert
-        Assert.IsNull(result);
-    }
+            // Act
+            var result = _controller.AddAdmin(userLogin) as StatusCodeResult;
 
-    [Test]
-    public void AddUser_Should_Return_OkResult()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
+            // Assert
+            Assert.IsNull(result);
+        }
 
-        // Act
-        var result = _controller.AddUser(userLogin) as OkResult;
+        [Test]
+        public void AddUser_Should_Return_OkResult()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
 
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-    }
+            // Act
+            var result = _controller.AddUser(userLogin) as OkResult;
 
-    [Test]
-    public void AddUser_Should_Return_InternalServerError_When_Exception_Occurs()
-    {
-        // Arrange
-        var userLogin = new LoginModel { Name = "John", Password = "password" };
-        _userRepositoryMock.Setup(repo => repo.UserAdd(userLogin.Name, userLogin.Password, RoleId.User))
-            .Throws(new Exception("Some error message"));
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+        }
 
-        // Act
-        var result = _controller.AddUser(userLogin) as StatusCodeResult;
+        [Test]
+        public void AddUser_Should_Return_InternalServerError_When_Exception_Occurs()
+        {
+            // Arrange
+            var userLogin = new LoginModel { Name = "John", Password = "password" };
+            _userRepositoryMock.Setup(repo => repo.UserAdd(userLogin.Name, userLogin.Password, RoleId.User))
+                .Throws(new Exception("Some error message"));
 
-        // Assert
-        Assert.IsNull(result);
-    }
+            // Act
+            var result = _controller.AddUser(userLogin) as StatusCodeResult;
 
-    [Test]
-    public void GetUserId_Should_Return_OkResult_With_UserId()
-    {
-        // Arrange
-        var identity = new ClaimsIdentity(new List<Claim> {
+            // Assert
+            Assert.IsNull(result);
+        }
+
+        [Test]
+        public void GetUserId_Should_Return_OkResult_With_UserId()
+        {
+            // Arrange
+            var identity = new ClaimsIdentity(new List<Claim> {
             new Claim(ClaimTypes.NameIdentifier, "123")
         });
-        _controller.ControllerContext = new ControllerContext
-        {
-            HttpContext = new DefaultHttpContext
+            _controller.ControllerContext = new ControllerContext
             {
-                User = new ClaimsPrincipal(identity)
-            }
-        };
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(identity)
+                }
+            };
 
-        // Act
-        var result = _controller.GetUserId() as OkObjectResult;
+            // Act
+            var result = _controller.GetUserId() as OkObjectResult;
 
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.StatusCode);
-        Assert.AreEqual("123", result.Value);
-    }
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, result.StatusCode);
+            Assert.AreEqual("123", result.Value);
+        }
 
-    [Test]
-    public void GetUserId_Should_Return_UnauthorizedResult_When_Identity_Is_Null()
-    {
-        // Arrange
-        _controller.ControllerContext = new ControllerContext
+        [Test]
+        public void GetUserId_Should_Return_UnauthorizedResult_When_Identity_Is_Null()
         {
-            HttpContext = new DefaultHttpContext
+            // Arrange
+            _controller.ControllerContext = new ControllerContext
             {
-                User = null
-            }
-        };
+                HttpContext = new DefaultHttpContext
+                {
+                    User = null
+                }
+            };
 
-        // Act
-        var result = _controller.GetUserId() as UnauthorizedResult;
+            // Act
+            var result = _controller.GetUserId() as UnauthorizedResult;
 
-        // Assert
-        Assert.IsNull(result);
+            // Assert
+            Assert.IsNull(result);
+        }
     }
 }

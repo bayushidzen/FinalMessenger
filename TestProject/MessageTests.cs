@@ -1,30 +1,32 @@
 ﻿using MessageDataBase.DB;
 using NUnit.Framework;
 
-namespace TestProject;
-
-[TestFixture]
-public class MessageTests
+namespace TestProject
 {
-    [Test]
-    public void Message_Properties_SetAndGet()
+
+    [TestFixture]
+    public class MessageTests
     {
-        // Arrange
-        var message = new Message();
-        var Id = Guid.NewGuid();
+        [Test]
+        public void Message_Properties_SetAndGet()
+        {
+            // Arrange
+            var message = new Message();
+            var Id = Guid.NewGuid();
 
-        // Act
-        message.Id = Id;
-        message.SenderName = "";
-        message.ReceiverName = "new User()";
-        message.Text = "Hello, World!";
-        message.IsReceived = true;
+            // Act
+            message.Id = Id;
+            message.SenderName = "";
+            message.ReceiverName = "new User()";
+            message.Text = "Hello, World!";
+            message.IsReceived = true;
 
-        // Assert
-        Assert.AreEqual(message.Id, Id);
-        Assert.IsNotNull(message.SenderName);
-        Assert.IsNotNull(message.ReceiverName);
-        Assert.AreEqual(message.Text, "Hello, World!");
-        Assert.IsTrue(message.IsReceived);
+            // Assert
+            Assert.AreEqual(message.Id, Id);
+            Assert.IsNotNull(message.SenderName);
+            Assert.IsNotNull(message.ReceiverName);
+            Assert.AreEqual(message.Text, "Hello, World!");
+            Assert.IsTrue(message.IsReceived);
+        }
     }
 }

@@ -1,72 +1,75 @@
-﻿using UserService.AuthorizationModel;
+﻿using NUnit.Framework;
+using UserService.AuthorizationModel;
 
-namespace TestProject;
-
-[TestFixture]
-public class AuthenticationMockTests
+namespace TestProject
 {
-    private AuthenticationMock _authenticationMock;
 
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class AuthenticationMockTests
     {
-        _authenticationMock = new AuthenticationMock();
-    }
+        private AuthenticationMock _authenticationMock;
 
-    [Test]
-    public void TestAuthenticate_AdminUser_ReturnsAdminUserModel()
-    {
-        // Arrange
-        LoginModel loginModel = new LoginModel
+        [SetUp]
+        public void Setup()
         {
-            Name = "admin",
-            Password = "admin"
-        };
+            _authenticationMock = new AuthenticationMock();
+        }
 
-        // Act
-        UserModel result = _authenticationMock.Authenticate(loginModel);
-
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual("admin", result.Username);
-        Assert.AreEqual("admin", result.Password);
-        Assert.AreEqual(UserRole.Adminstrator, result.Role);
-    }
-
-    [Test]
-    public void TestAuthenticate_NormalUser_ReturnsNormalUserModel()
-    {
-        // Arrange
-        LoginModel loginModel = new LoginModel
+        [Test]
+        public void TestAuthenticate_AdminUser_ReturnsAdminUserModel()
         {
-            Name = "user",
-            Password = "user"
-        };
+            // Arrange
+            LoginModel loginModel = new LoginModel
+            {
+                Name = "admin",
+                Password = "admin"
+            };
 
-        // Act
-        UserModel result = _authenticationMock.Authenticate(loginModel);
+            // Act
+            UserModel result = _authenticationMock.Authenticate(loginModel);
 
-        // Assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual("user", result.Username);
-        Assert.AreEqual("user", result.Password);
-        Assert.AreEqual(UserRole.User, result.Role);
-    }
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("admin", result.Username);
+            Assert.AreEqual("admin", result.Password);
+            Assert.AreEqual(UserRole.Adminstrator, result.Role);
+        }
 
-    [Test]
-    public void TestAuthenticate_InvalidUser_ReturnsNull()
-    {
-        // Arrange
-        LoginModel loginModel = new LoginModel
+        [Test]
+        public void TestAuthenticate_NormalUser_ReturnsNormalUserModel()
         {
-            Name = "invalid",
-            Password = "invalid"
-        };
+            // Arrange
+            LoginModel loginModel = new LoginModel
+            {
+                Name = "user",
+                Password = "user"
+            };
 
-        // Act
-        UserModel result = _authenticationMock.Authenticate(loginModel);
+            // Act
+            UserModel result = _authenticationMock.Authenticate(loginModel);
 
-        // Assert
-        Assert.IsNull(result);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.AreEqual("user", result.Username);
+            Assert.AreEqual("user", result.Password);
+            Assert.AreEqual(UserRole.User, result.Role);
+        }
+
+        [Test]
+        public void TestAuthenticate_InvalidUser_ReturnsNull()
+        {
+            // Arrange
+            LoginModel loginModel = new LoginModel
+            {
+                Name = "invalid",
+                Password = "invalid"
+            };
+
+            // Act
+            UserModel result = _authenticationMock.Authenticate(loginModel);
+
+            // Assert
+            Assert.IsNull(result);
+        }
     }
 }

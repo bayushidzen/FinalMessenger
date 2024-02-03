@@ -1,43 +1,45 @@
 ﻿using NUnit.Framework;
 using UserService.AuthorizationModel;
 
-namespace TestProject;
-
-[TestFixture]
-public class UserModelTests
+namespace TestProject
 {
-    private UserModel _userModel;
 
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class UserModelTests
     {
-        _userModel = new UserModel();
-    }
+        private UserModel _userModel;
 
-    [Test]
-    public void TestUsernameProperty()
-    {
-        string expectedUsername = "TestUser";
-        _userModel.Username = expectedUsername;
+        [SetUp]
+        public void Setup()
+        {
+            _userModel = new UserModel();
+        }
 
-        Assert.AreEqual(expectedUsername, _userModel.Username);
-    }
+        [Test]
+        public void TestUsernameProperty()
+        {
+            string expectedUsername = "TestUser";
+            _userModel.Username = expectedUsername;
 
-    [Test]
-    public void TestPasswordProperty()
-    {
-        string expectedPassword = "TestPassword";
-        _userModel.Password = expectedPassword;
+            Assert.AreEqual(expectedUsername, _userModel.Username);
+        }
 
-        Assert.AreEqual(expectedPassword, _userModel.Password);
-    }
+        [Test]
+        public void TestPasswordProperty()
+        {
+            string expectedPassword = "TestPassword";
+            _userModel.Password = expectedPassword;
 
-    [Test]
-    public void TestRoleProperty()
-    {
-        UserRole expectedRole = UserRole.Adminstrator;
-        _userModel.Role = expectedRole;
+            Assert.AreEqual(expectedPassword, _userModel.Password);
+        }
 
-        Assert.AreEqual(expectedRole, _userModel.Role);
+        [Test]
+        public void TestRoleProperty()
+        {
+            UserRole expectedRole = UserRole.Adminstrator;
+            _userModel.Role = expectedRole;
+
+            Assert.AreEqual(expectedRole, _userModel.Role);
+        }
     }
 }
